@@ -26,22 +26,6 @@
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Uf-08-NKU">
-                                <rect key="frame" x="200" y="446" width="200" height="60"/>
-                                <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="8cE-mX-BCh"/>
-                                    <constraint firstAttribute="height" constant="60" id="s8j-qO-27e"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
-                                <state key="normal" title="重新扫描">
-                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="reScan:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qDE-sj-hEC"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -49,13 +33,10 @@
                             <constraint firstItem="KRq-k4-FEr" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="6e9-jx-ITm"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="KRq-k4-FEr" secondAttribute="bottom" id="S5k-a4-Y9B"/>
                             <constraint firstAttribute="trailing" secondItem="KRq-k4-FEr" secondAttribute="trailing" id="SYQ-9l-GBl"/>
-                            <constraint firstItem="9Uf-08-NKU" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="qsx-Sn-wvU"/>
-                            <constraint firstItem="KRq-k4-FEr" firstAttribute="top" secondItem="9Uf-08-NKU" secondAttribute="bottom" constant="30" id="wnE-Om-9PB"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="detailTitle" destination="KRq-k4-FEr" id="vY0-01-Lp7"/>
-                        <outlet property="reScanBtn" destination="9Uf-08-NKU" id="2wf-gM-1QY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

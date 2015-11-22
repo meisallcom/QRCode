@@ -12,8 +12,7 @@ import UIKit
 import AVFoundation
 
 class QRCodeViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
-    
-    @IBOutlet weak var reScanBtn: UIButton!
+
     @IBOutlet weak var detailTitle: UILabel!
     // 视频捕捉会话
     var session: AVCaptureSession?
@@ -24,11 +23,6 @@ class QRCodeViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        initSession()
-        reScanBtn.hidden = true
-    }
-    
-    func initSession() {
         // 初始化视频捕捉会话
         session = AVCaptureSession()
         // 制定设备为摄像头
@@ -93,16 +87,12 @@ class QRCodeViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
                 case AVMetadataObjectTypeQRCode:
                     if let decodeStr = obj.stringValue {
                         detailTitle.text = "二维码：" + decodeStr
-                        launchQRCodeWithURL(decodeStr)
-                        stopScan()
                     }
                     break
                     // 如果使条形码
                 case AVMetadataObjectTypeEAN13Code:
                     if let decodeStr = obj.stringValue {
                         detailTitle.text = "条形码：" + decodeStr
-                        launchBarcodeWithString(decodeStr)
-                        stopScan()
                     }
                     break
                 default:break
@@ -115,65 +105,5 @@ class QRCodeViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
             detailTitle.text = "扫描中..."
             return
         }
-    }
-    
-    @IBAction func reScan(sender: UIButton) {
-        session?.startRunning()
-        sender.hidden = false
-        view.bringSubviewToFront(sender)
-    }
-    
-    func stopScan() {
-        session?.stopRunning()
-        reScanBtn.hidden = true
-    }
-    
-    // 解析二维码
-    func launchQRCodeWithURL(url: String) {
-        let alert = UIAlertController(title: "扫描成功", message: "确定要打开吗", preferredStyle: UIAlertControllerStyle.ActionSheet)
-        let okAction = UIAlertAction(title: "打开", style: UIAlertActionStyle.Destructive) { (__) -> Void in
-            if let url = NSURL(string: url) {
-                if UIApplication.sharedApplication().canOpenURL(url) {
-                    UIApplication.sharedApplication().canOpenURL(url)
-                }
-            }
-        }
-        let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
-        alert.addAction(okAction)
-        alert.addAction(cancelAction)
-        
-        alert.popoverPresentationController?.sourceView = view
-        alert.popoverPresentationController?.sourceRect = reScanBtn.frame
-        
-        self.presentViewController(alert, animated: true, completion: nil)
-    }
-    
-    // 解析条形码
-    func launchBarcodeWithString(urlStr: String) {
-        // 配置网络会话
-         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
-        // 聚合数据 条形码 API
-        let baseURL = "http://api.juheapi.com/jubar/bar?appkey=6dbeb78efa84f3b745623d2c99297ba0&pkg=me.hcxy&cityid=1&barcode="
-        
-        let request = NSURLRequest(URL: NSURL(string: baseURL + urlStr)!)
-        
-        let task = session.dataTaskWithRequest(request) { (data, _, e) -> Void in
-            if e == nil {
-                do {
-                    if let json = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments) as? NSDictionary {
-                        if let summary = json["result"]?["summary"] as? NSDictionary {
-                            let name = summary.valueForKey("name") as? String
-                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                self.detailTitle.text = self.detailTitle.text! + name!
-                            })
-                        }
-                    }
-                } catch {
-                    
-                }
-            }
-        }
-        
-        task.resume()
     }
 }
